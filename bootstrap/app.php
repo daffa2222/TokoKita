@@ -11,7 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // --- DAFTARKAN ALIAS MIDDLEWARE DISINI ---
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'seller.approved' => \App\Http\Middleware\EnsureSellerApproved::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

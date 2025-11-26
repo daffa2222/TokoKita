@@ -8,7 +8,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-slate-500">
-            {{ __("Perbarui informasi profil akun, alamat email, dan alamat pengiriman Anda.") }}
+            {{ __("Perbarui informasi profil dan alamat email akun Anda.") }}
         </p>
     </header>
 
@@ -52,14 +52,14 @@
             @endif
         </div>
 
-        <!-- ALAMAT PENGIRIMAN (Tampil jika user adalah Buyer atau Admin) -->
-        <!-- Seller biasanya pakai alamat toko di dashboard terpisah -->
-        @if($user->role === 'buyer' || $user->role === 'admin') 
+        <!-- ALAMAT PENGIRIMAN (Hanya Tampil untuk Buyer) -->
+        <!-- Admin dan Seller tidak butuh kolom ini di profil mereka -->
+        @if($user->role === 'buyer') 
         <div>
             <x-input-label for="address" :value="__('Alamat Pengiriman Default')" class="text-slate-700 font-bold" />
             <textarea id="address" name="address" rows="3" 
                 class="mt-1 block w-full rounded-xl border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm placeholder-slate-400 text-slate-700 resize-none transition" 
-                placeholder="Contoh: Jl. Merdeka No. 45, RT 01/RW 02, Jakarta Pusat, DKI Jakarta 10110">{{ old('address', $user->address) }}</textarea>
+                placeholder="Contoh: Jl. Merdeka No. 45, Jakarta Pusat">{{ old('address', $user->address) }}</textarea>
             <x-input-error class="mt-2" :messages="$errors->get('address')" />
             <p class="text-xs text-slate-500 mt-1 ml-1">Alamat ini akan otomatis terisi saat Anda melakukan checkout.</p>
         </div>

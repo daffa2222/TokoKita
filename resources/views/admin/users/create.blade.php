@@ -18,10 +18,10 @@
                 <!-- Header Form -->
                 <div class="mb-8 pb-6 border-b border-slate-100">
                     <h1 class="text-2xl font-bold text-slate-800">Tambah Pengguna Baru</h1>
-                    <p class="text-slate-500 text-sm mt-1">Buat akun manual untuk Admin, Seller, atau Buyer baru dengan mudah.</p>
+                    <p class="text-slate-500 text-sm mt-1">Buat akun manual untuk Admin, Seller, atau Buyer baru.</p>
                 </div>
 
-                <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-6">
+                <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-6" autocomplete="off">
                     @csrf
                     
                     <!-- 1. Identitas Dasar -->
@@ -29,9 +29,10 @@
                         <!-- Nama -->
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Nama Lengkap</label>
+                            <!-- Value hanya diisi old('name') agar kosong saat pertama buka, tapi tetap ada isinya jika submit gagal -->
                             <input type="text" name="name" value="{{ old('name') }}" required 
-                                class="w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-400 text-slate-700 py-3 px-4 transition shadow-sm"
-                                placeholder="Contoh: Budi Santoso">
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:ring-indigo-500 focus:border-indigo-500 text-slate-700 py-3 px-4 transition shadow-sm placeholder-slate-400"
+                                placeholder="Contoh: Budi Santoso" autocomplete="off">
                             @error('name') <p class="text-red-500 text-xs mt-1 font-medium ml-1">{{ $message }}</p> @enderror
                         </div>
 
@@ -39,8 +40,8 @@
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Alamat Email</label>
                             <input type="email" name="email" value="{{ old('email') }}" required 
-                                class="w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-400 text-slate-700 py-3 px-4 transition shadow-sm"
-                                placeholder="Contoh: budi@email.com">
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:ring-indigo-500 focus:border-indigo-500 text-slate-700 py-3 px-4 transition shadow-sm placeholder-slate-400"
+                                placeholder="Contoh: budi@email.com" autocomplete="new-email">
                             @error('email') <p class="text-red-500 text-xs mt-1 font-medium ml-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
@@ -51,18 +52,15 @@
                         <div class="relative">
                             <select name="role" class="w-full rounded-xl border-indigo-200 focus:ring-indigo-500 focus:border-indigo-500 text-slate-700 cursor-pointer appearance-none py-3 pl-4 pr-10 shadow-sm bg-white">
                                 <option value="" disabled selected>Pilih Peran Pengguna...</option>
-                                <option value="buyer">Buyer (Pembeli)</option>
-                                <option value="seller">Seller (Penjual)</option>
-                                <option value="admin">Admin (Pengelola)</option>
+                                <option value="buyer" {{ old('role') == 'buyer' ? 'selected' : '' }}>Buyer (Pembeli)</option>
+                                <option value="seller" {{ old('role') == 'seller' ? 'selected' : '' }}>Seller (Penjual)</option>
+                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin (Pengelola)</option>
                             </select>
                             <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-indigo-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                         </div>
-                        <div class="flex items-start gap-2 mt-3 text-indigo-600/80 text-xs">
-                            <svg class="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <p>Jika Anda memilih <strong>Seller</strong>, sistem akan otomatis membuatkan toko dan menyetujui pendaftarannya.</p>
-                        </div>
+                        
                         @error('role') <p class="text-red-500 text-xs mt-1 font-medium ml-1">{{ $message }}</p> @enderror
                     </div>
 
@@ -72,14 +70,14 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <input type="password" name="password" required 
-                                    class="w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-400 text-slate-700 py-3 px-4 transition shadow-sm"
-                                    placeholder="Password (Min. 8 karakter)">
+                                    class="w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:ring-indigo-500 focus:border-indigo-500 text-slate-700 py-3 px-4 transition shadow-sm placeholder-slate-400"
+                                    placeholder="Password (Min. 8 karakter)" autocomplete="new-password">
                                 @error('password') <p class="text-red-500 text-xs mt-1 font-medium ml-1">{{ $message }}</p> @enderror
                             </div>
                             <div>
                                 <input type="password" name="password_confirmation" required 
-                                    class="w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-400 text-slate-700 py-3 px-4 transition shadow-sm"
-                                    placeholder="Ulangi Password yang sama">
+                                    class="w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:ring-indigo-500 focus:border-indigo-500 text-slate-700 py-3 px-4 transition shadow-sm placeholder-slate-400"
+                                    placeholder="Ulangi Password yang sama" autocomplete="new-password">
                             </div>
                         </div>
                     </div>

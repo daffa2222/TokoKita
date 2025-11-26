@@ -12,28 +12,40 @@ use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
-    // Proses Checkout (Transaksi)
+    // Proses Checkout (Hanya Barang yang Dicentang)
     public function checkout(Request $request)
     {
         $user = Auth::user();
-        $carts = Cart::where('user_id', $user->id)->with('product')->get();
+        
+        // 1. Ambil ID barang yang dicentang dari form (array)
+        $selectedItems = $request->input('selected_items');
 
-        // 1. Validasi Keranjang
-        if($carts->isEmpty()) {
-            return back()->with('error', 'Keranjang belanja Anda kosong.');
+        // Validasi: Harus ada minimal 1 barang yang dipilih
+        if (!$selectedItems || count($selectedItems) == 0) {
+            return back()->with('error', 'Silakan pilih (centang) minimal satu barang untuk dicheckout.');
         }
 
-        // 2. Validasi Alamat
-        // Gunakan input alamat dari form checkout, atau fallback ke alamat profil user
+        // 2. Ambil Data Keranjang berdasarkan ID yang dipilih saja
+        $carts = Cart::where('user_id', $user->id)
+                     ->whereIn('id', $selectedItems) // Filter HANYA yang dicentang
+                     ->with('product')
+                     ->get();
+
+        if ($carts->isEmpty()) {
+            return back()->with('error', 'Item yang dipilih tidak valid.');
+        }
+
+        // 3. Validasi Alamat (Prioritas: Input Form > Data Profil)
         $address = $request->address ?? $user->address;
         
-        if(!$address) {
-            return back()->with('error', 'Mohon isi alamat pengiriman di profil atau saat checkout.');
+        if (!$address) {
+            return back()->with('error', 'Mohon isi alamat pengiriman.');
         }
 
         // MULAI TRANSAKSI DATABASE
         DB::beginTransaction();
         try {
+            // Hitung Total Harga (Hanya item yang dipilih)
             $totalPrice = $carts->sum(function($item) {
                 return $item->product->price * $item->quantity;
             });
@@ -47,10 +59,10 @@ class OrderController extends Controller
                 'delivery_address' => $address
             ]);
 
-            // B. Pindahkan Item Keranjang ke Order Items
-            foreach($carts as $cart) {
+            // B. Pindahkan Item ke OrderItems
+            foreach ($carts as $cart) {
                 // Cek stok terakhir sebelum deal
-                if($cart->product->stock < $cart->quantity) {
+                if ($cart->product->stock < $cart->quantity) {
                     throw new \Exception("Stok produk " . $cart->product->name . " tidak mencukupi.");
                 }
 
@@ -64,10 +76,13 @@ class OrderController extends Controller
 
                 // Kurangi Stok Produk
                 $cart->product->decrement('stock', $cart->quantity);
+                
+                // Hapus item dari keranjang (HANYA yang sudah dicheckout)
+                $cart->delete();
             }
 
-            // C. Kosongkan Keranjang
-            Cart::where('user_id', $user->id)->delete();
+            // Update alamat di profil user (agar besok tidak perlu ngetik lagi)
+            $user->update(['address' => $address]);
 
             // Simpan Permanen
             DB::commit();
@@ -75,7 +90,7 @@ class OrderController extends Controller
             return redirect()->route('buyer.orders')->with('success', 'Pesanan berhasil dibuat!');
 
         } catch (\Exception $e) {
-            // Batalkan jika ada error
+            // Batalkan semua jika ada error
             DB::rollback();
             return back()->with('error', 'Gagal memproses pesanan: ' . $e->getMessage());
         }

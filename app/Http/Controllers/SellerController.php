@@ -10,12 +10,10 @@ use App\Models\OrderItem;
 
 class SellerController extends Controller
 {
-    // Dashboard Utama Seller
     public function dashboard()
     {
         $store = auth()->user()->store;
         
-        // Jika belum punya toko (antisipasi error)
         if(!$store) {
              return redirect()->route('home')->with('error', 'Toko tidak ditemukan.');
         }
@@ -23,11 +21,18 @@ class SellerController extends Controller
         // 1. Total Produk
         $totalProducts = Product::where('store_id', $store->id)->count();
         
-        // 2. Total Pesanan Masuk (Cek tabel order_items milik toko ini)
-        $totalOrders = OrderItem::where('store_id', $store->id)->count();
+        // 2. Pesanan Masuk (YANG BELUM SELESAI)
+        // Kita hitung hanya yang statusnya 'pending', 'paid', atau 'processing'
+        $totalOrders = OrderItem::where('store_id', $store->id)
+            ->whereHas('order', function($q) {
+                $q->whereIn('status', ['pending', 'paid', 'processing', 'shipped']);
+            })->count();
 
-        // 3. Total Pendapatan
+        // 3. Total Pendapatan (Hanya dari pesanan SELESAI)
         $revenue = OrderItem::where('store_id', $store->id)
+            ->whereHas('order', function($q) {
+                $q->where('status', 'completed');
+            })
             ->get()
             ->sum(function($item) {
                 return $item->price * $item->quantity;
@@ -36,14 +41,13 @@ class SellerController extends Controller
         return view('seller.dashboard', compact('totalProducts', 'totalOrders', 'revenue'));
     }
 
-    // Halaman Edit Toko
+    // ... method editStore dan updateStore tetap sama ...
     public function editStore()
     {
         $store = auth()->user()->store;
         return view('seller.store.edit', compact('store'));
     }
 
-    // Proses Update Informasi Toko
     public function updateStore(Request $request)
     {
         $store = auth()->user()->store;
@@ -51,7 +55,7 @@ class SellerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Max 2MB
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $data = [
@@ -60,13 +64,10 @@ class SellerController extends Controller
             'description' => $request->description,
         ];
 
-        // Logika Upload Gambar Toko
         if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
             if ($store->image) {
                 Storage::delete('public/' . $store->image);
             }
-            // Simpan gambar baru
             $data['image'] = $request->file('image')->store('stores', 'public');
         }
 

@@ -12,10 +12,9 @@
                             <tr>
                                 <th class="px-6 py-4">Produk</th>
                                 <th class="px-6 py-4">Pembeli</th>
-                                <th class="px-6 py-4">Jumlah</th>
                                 <th class="px-6 py-4">Total</th>
-                                <th class="px-6 py-4">Status Order</th>
-                                <th class="px-6 py-4">Tanggal</th>
+                                <th class="px-6 py-4">Status Saat Ini</th>
+                                <th class="px-6 py-4">Ubah Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,31 +27,51 @@
                                             @endif
                                         </div>
                                         {{ $item->product->name }}
+                                        <br>
+                                        <span class="text-xs text-slate-400">x{{ $item->quantity }}</span>
                                     </td>
                                     <td class="px-6 py-4">{{ $item->order->user->name }}</td>
-                                    <td class="px-6 py-4 font-bold">x {{ $item->quantity }}</td>
-                                    <td class="px-6 py-4 text-indigo-600 font-bold">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
+                                    <td class="px-6 py-4 font-bold text-indigo-600">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
+                                    
+                                    <!-- Status Badge -->
                                     <td class="px-6 py-4">
                                         @php
                                             $status = $item->order->status;
                                             $color = match($status) {
-                                                'completed' => 'bg-green-100 text-green-800',
                                                 'pending' => 'bg-yellow-100 text-yellow-800',
+                                                'processing' => 'bg-blue-100 text-blue-800',
+                                                'shipped' => 'bg-purple-100 text-purple-800',
+                                                'completed' => 'bg-green-100 text-green-800',
                                                 'cancelled' => 'bg-red-100 text-red-800',
-                                                default => 'bg-blue-100 text-blue-800'
+                                                default => 'bg-gray-100 text-gray-800'
                                             };
                                         @endphp
                                         <span class="px-2 py-1 rounded text-xs font-bold {{ $color }}">
                                             {{ ucfirst($status) }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4">{{ $item->created_at->format('d M Y') }}</td>
+
+                                    <!-- Form Update Status -->
+                                    <td class="px-6 py-4">
+                                        <form action="{{ route('seller.orders.update', $item->id) }}" method="POST" class="flex gap-2">
+                                            @csrf
+                                            @method('PATCH')
+                                            <select name="status" class="text-xs border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                                <option value="pending" {{ $status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                <option value="processing" {{ $status == 'processing' ? 'selected' : '' }}>Proses</option>
+                                                <option value="shipped" {{ $status == 'shipped' ? 'selected' : '' }}>Kirim</option>
+                                                <option value="completed" {{ $status == 'completed' ? 'selected' : '' }}>Selesai</option>
+                                                <option value="cancelled" {{ $status == 'cancelled' ? 'selected' : '' }}>Batal</option>
+                                            </select>
+                                            <button type="submit" class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-indigo-700">
+                                                Update
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="px-6 py-10 text-center text-slate-500">
-                                        Belum ada pesanan masuk.
-                                    </td>
+                                    <td colspan="5" class="px-6 py-10 text-center text-slate-500">Belum ada pesanan.</td>
                                 </tr>
                             @endforelse
                         </tbody>

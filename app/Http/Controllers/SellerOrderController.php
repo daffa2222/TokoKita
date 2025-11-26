@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
@@ -12,12 +13,26 @@ class SellerOrderController extends Controller
     {
         $storeId = auth()->user()->store->id;
 
-        // Ambil item order yang ditujukan ke toko ini
         $orderItems = OrderItem::where('store_id', $storeId)
-                        ->with(['order.user', 'product']) // Load data pembeli & produk
+                        ->with(['order.user', 'product'])
                         ->latest()
                         ->paginate(10);
 
         return view('seller.orders.index', compact('orderItems'));
+    }
+
+    // TAMBAHAN: Update Status
+    public function updateStatus(Request $request, $id)
+    {
+        $item = OrderItem::where('store_id', auth()->user()->store->id)
+                    ->where('id', $id)
+                    ->firstOrFail();
+
+        $order = $item->order; // Ambil Order Induknya
+        
+        // Update status Order Induk
+        $order->update(['status' => $request->status]);
+
+        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui!');
     }
 }

@@ -10,51 +10,74 @@ class HomeController extends Controller
 {
     /**
      * Menampilkan Halaman Depan (Homepage)
-     * Berisi daftar produk terbaru, fitur pencarian, dan filter kategori.
+     * Mengelola daftar produk, pencarian, filter kategori, dan sorting harga.
      */
     public function index(Request $request)
     {
-        // 1. Siapkan query produk dengan relasi ke kategori dan toko
-        // Kita gunakan 'with' agar database tidak dipanggil berulang-ulang (Eager Loading)
+        // 1. Siapkan query dasar dengan relasi (Eager Loading) agar performa cepat
         $query = Product::with(['category', 'store']);
 
-        // 2. Logika Pencarian: Jika ada input 'search' dari pengguna
+        // -----------------------------------------------------------
+        // LOGIKA 1: PENCARIAN (SEARCH)
+        // -----------------------------------------------------------
         if ($request->has('search') && $request->search != null) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        // 3. Logika Filter Kategori: Jika pengguna memilih kategori tertentu
+        // -----------------------------------------------------------
+        // LOGIKA 2: FILTER KATEGORI
+        // -----------------------------------------------------------
         if ($request->has('category') && $request->category != null) {
             $query->where('category_id', $request->category);
         }
 
-        // 4. Ambil data produk (12 produk per halaman agar rapi)
-        // latest() artinya mengurutkan dari yang paling baru dibuat
-        $products = $query->latest()->paginate(12);
+        // -----------------------------------------------------------
+        // LOGIKA 3: SORTING / PENGURUTAN (FITUR BARU)
+        // -----------------------------------------------------------
+        if ($request->has('sort')) {
+            if ($request->sort == 'low_high') {
+                // Urutkan dari Harga Terendah ke Tertinggi (ASC)
+                $query->orderBy('price', 'asc');
+            } elseif ($request->sort == 'high_low') {
+                // Urutkan dari Harga Tertinggi ke Terendah (DESC)
+                $query->orderBy('price', 'desc');
+            } else {
+                // Default: Produk Terbaru
+                $query->latest();
+            }
+        } else {
+            // Jika tidak ada request sort, default tampilkan terbaru
+            $query->latest();
+        }
+
+        // -----------------------------------------------------------
+        // EKSEKUSI DATA
+        // -----------------------------------------------------------
         
-        // 5. Ambil semua data kategori untuk ditampilkan di dropdown filter halaman depan
+        // Ambil data produk dengan pagination (12 per halaman)
+        // method appends($request->all()) berguna agar saat pindah halaman, filter search/sort tidak hilang
+        $products = $query->paginate(12)->appends($request->all());
+        
+        // Ambil semua kategori untuk dropdown filter di tampilan
         $categories = Category::all();
 
-        // Kirim data produk dan kategori ke view 'home'
+        // Kirim data ke view 'home'
         return view('home', compact('products', 'categories'));
     }
 
     /**
      * Menampilkan Halaman Detail Produk
-     * Dijalankan saat user mengklik salah satu produk.
      */
     public function show($slug)
     {
-        // Cari produk berdasarkan 'slug' (URL ramah pengguna)
-        // Kita juga ambil data Toko, Review beserta User yg mereview, dan Kategori-nya
+        // Cari produk berdasarkan slug
         $product = Product::with(['store', 'reviews.user', 'category'])
             ->where('slug', $slug)
-            ->firstOrFail(); // Jika tidak ketemu, otomatis tampilkan error 404
+            ->firstOrFail();
 
-        // Hitung rata-rata rating bintang dari review yang ada (contoh: 4.5)
+        // Hitung rata-rata rating
         $rating = $product->reviews()->avg('rating');
 
-        // Kirim data ke view 'product-detail'
         return view('product-detail', compact('product', 'rating'));
     }
 }

@@ -30,7 +30,14 @@ class CategoryController extends Controller
         return back()->with('success', 'Kategori berhasil ditambahkan.');
     }
 
-    // Update kategori
+    // MENAMPILKAN HALAMAN EDIT (YANG DITAMBAHKAN)
+    public function edit($id)
+    {
+        $category = Category::findOrFail($id);
+        return view('admin.categories.edit', compact('category'));
+    }
+
+    // Update kategori ke database
     public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
@@ -44,7 +51,7 @@ class CategoryController extends Controller
             'slug' => Str::slug($request->name),
         ]);
 
-        return back()->with('success', 'Kategori berhasil diperbarui.');
+        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diperbarui.');
     }
 
     // Hapus kategori

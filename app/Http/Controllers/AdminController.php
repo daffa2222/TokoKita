@@ -6,86 +6,73 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    /**
-     * Dashboard Utama Admin
-     * Menampilkan statistik ringkas.
-     */
+    // Dashboard Admin
     public function index()
     {
         $totalUsers = User::count();
         $totalProducts = Product::count();
         $totalOrders = Order::count();
-        
-        // Hitung berapa seller yang masih status 'pending' (butuh verifikasi)
-        $pendingSellers = User::where('role', 'seller')
-                              ->where('seller_status', 'pending')
-                              ->count();
+        $pendingSellers = User::where('role', 'seller')->where('seller_status', 'pending')->count();
 
         return view('admin.dashboard', compact('totalUsers', 'totalProducts', 'totalOrders', 'pendingSellers'));
     }
 
-    /**
-     * Halaman Verifikasi Seller
-     * Hanya menampilkan seller yang statusnya 'pending'.
-     */
+    // Verifikasi Seller (Halaman Tabel)
+    // Verifikasi Seller (Tampilkan SEMUA Seller untuk dipantau statusnya)
     public function pendingSellers()
     {
+        // Ambil semua user dengan role 'seller', urutkan dari yang terbaru
+        // Agar yang baru daftar (pending) muncul paling atas
         $sellers = User::where('role', 'seller')
-            ->where('seller_status', 'pending')
-            ->with('store') // Load data tokonya juga
+            ->with('store')
+            ->latest()
             ->get();
 
         return view('admin.verify-seller', compact('sellers'));
     }
 
-    /**
-     * Proses Menyetujui (Approve) Seller
-     */
+    // Aksi Approve Seller
     public function approveSeller($id)
     {
         $seller = User::findOrFail($id);
         $seller->update(['seller_status' => 'approved']);
-
         return redirect()->back()->with('success', 'Akun Seller berhasil disetujui!');
     }
 
-    /**
-     * Proses Menolak (Reject) Seller
-     */
+    // Aksi Reject Seller
     public function rejectSeller($id)
     {
         $seller = User::findOrFail($id);
         $seller->update(['seller_status' => 'rejected']);
-
         return redirect()->back()->with('success', 'Akun Seller telah ditolak.');
     }
 
-    /**
-     * Halaman Manajemen User
-     * Melihat daftar semua pengguna.
-     */
-    public function users()
+    // --- FITUR MANAJEMEN PRODUK (ADMIN) ---
+
+    // 1. Lihat Semua Produk
+    public function products()
     {
-        $users = User::latest()->paginate(10);
-        return view('admin.users', compact('users'));
+        // Ambil semua produk dari semua seller dengan pagination
+        $products = Product::with(['store', 'category'])->latest()->paginate(10);
+        return view('admin.products.index', compact('products'));
     }
 
-    /**
-     * Menghapus User
-     */
-    public function destroyUser($id)
+    // 2. Hapus Produk Paksa (Jika melanggar aturan)
+    public function destroyProduct($id)
     {
-        $user = User::findOrFail($id);
+        $product = Product::findOrFail($id);
         
-        // Validasi: Admin tidak boleh menghapus dirinya sendiri
-        if ($user->id == auth()->id()) {
-            return back()->with('error', 'Anda tidak bisa menghapus akun sendiri!');
+        // Hapus gambar dari penyimpanan jika ada
+        if ($product->image) {
+            Storage::delete('public/' . $product->image);
         }
 
-        $user->delete();
-        return back()->with('success', 'Pengguna berhasil dihapus.');
+        $product->delete();
+
+        return back()->with('success', 'Produk berhasil dihapus oleh Admin (Pelanggaran Ketentuan).');
     }
 }

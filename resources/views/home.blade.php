@@ -2,64 +2,46 @@
     <!-- Font Poppins -->
     <style> * { font-family: 'Poppins', sans-serif; } </style>
 
-    <!-- HERO SECTION (Banner Besar & Menarik) -->
+    <!-- HERO SECTION -->
     <div class="relative bg-indigo-600 overflow-hidden">
-        <!-- Background Pattern (Hiasan) -->
         <div class="absolute top-0 left-0 w-full h-full opacity-10">
             <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                 <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white"></path>
             </svg>
         </div>
 
-        <!-- Dekorasi Lingkaran Mengambang (Pemanis) -->
-        <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl animate-bounce"></div>
-        <div class="absolute bottom-20 right-10 w-32 h-32 bg-indigo-400/20 rounded-full blur-xl"></div>
-
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
-            
-            <!-- Badge Atas -->
-            <span class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-indigo-500/40 border border-indigo-400 text-indigo-50 text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-md shadow-lg">
-                <span class="text-lg">✨</span> E-COMMERCE TERLENGKAP
+            <span class="inline-block py-1 px-3 rounded-full bg-indigo-500/30 border border-indigo-400 text-indigo-100 text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
+                E-Commerce Terlengkap
             </span>
-            
-            <!-- Judul Utama -->
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight drop-shadow-md">
-                Wujudkan Gaya Impianmu, <br>
-                <span class="text-indigo-200 inline-flex items-center gap-2">
-                    Mulai dari Sini! 
-                    <svg class="w-10 h-10 text-yellow-400 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+                Wujudkan Gaya Impianmu <br>
+                <span class="text-indigo-200">Mulai dari Sini!</span>
             </h1>
-            
-            <!-- Deskripsi -->
-            <p class="text-lg text-indigo-100 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
-                Ribuan produk original 💯, harga bersahabat 🏷️, dan pengiriman kilat 🚀. 
+            <p class="text-lg text-indigo-100 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Ribuan produk original 💯, harga bersahabat 🏷, dan pengiriman kilat 🚀. 
                 Nikmati pengalaman belanja aman & nyaman cuma di <span class="font-bold text-white">TokoKita</span>.
-            </p>
 
+            </p>
         </div>
     </div>
 
-    <!-- MAIN CONTENT (Overlap ke atas sedikit biar keren) -->
+    <!-- MAIN CONTENT -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10 pb-20">
         
-        <!-- SEARCH, FILTER & SORT BAR -->
+        <!-- SEARCH BAR (Sama seperti sebelumnya) -->
         <div class="bg-white rounded-2xl shadow-xl shadow-indigo-100/50 p-5 mb-12 border border-slate-100">
             <form method="GET" action="{{ route('home') }}" class="flex flex-col lg:flex-row gap-4 lg:items-center">
-                
-                <!-- Search Input -->
                 <div class="relative w-full lg:flex-1 group">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <svg class="h-6 w-6 text-slate-400 group-focus-within:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="text" name="search" placeholder="Mau cari apa hari ini? " value="{{ request('search') }}" 
+                    <input type="text" name="search" placeholder="Mau cari apa hari ini?" value="{{ request('search') }}" 
                         class="w-full pl-12 pr-4 py-4 bg-slate-50 border-0 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white text-slate-800 text-base placeholder-slate-400 transition font-medium shadow-sm">
                 </div>
                 
-                <!-- Filter & Sort Container -->
                 <div class="flex flex-col sm:flex-row gap-4 lg:w-auto">
                     <div class="grid grid-cols-2 gap-4 w-full sm:w-auto">
-                        <!-- Kategori -->
                         <div class="relative min-w-[160px]">
                             <select name="category" class="w-full py-4 pl-4 pr-10 bg-slate-50 border-0 rounded-xl focus:ring-2 focus:ring-indigo-500 text-slate-700 font-medium cursor-pointer appearance-none shadow-sm">
                                 <option value="">Semua Kategori</option>
@@ -72,7 +54,6 @@
                             </div>
                         </div>
 
-                        <!-- Sorting -->
                         <div class="relative min-w-[160px]">
                             <select name="sort" class="w-full py-4 pl-4 pr-10 bg-slate-50 border-0 rounded-xl focus:ring-2 focus:ring-indigo-500 text-slate-700 font-medium cursor-pointer appearance-none shadow-sm">
                                 <option value="">Urutkan...</option>
@@ -85,10 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Tombol Cari -->
-                    <button type="submit" class="w-full sm:w-auto bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-indigo-700 active:scale-95 transition shadow-lg shadow-indigo-200 whitespace-nowrap flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <button type="submit" class="w-full sm:w-auto bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-indigo-700 active:scale-95 transition shadow-lg shadow-indigo-200 whitespace-nowrap">
                         Cari
                     </button>
                 </div>
@@ -100,7 +78,7 @@
             @forelse($products as $product)
                 <div class="group bg-white rounded-3xl p-3 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-indigo-100/50 hover:-translate-y-2 transition-all duration-300 relative flex flex-col h-full">
                     
-                    <!-- Wishlist Button (Floating) -->
+                    <!-- Wishlist Button -->
                     @if(auth()->check() && auth()->user()->role === 'buyer')
                         <form action="{{ route('buyer.wishlist.toggle', $product->id) }}" method="POST" class="absolute top-5 right-5 z-20">
                             @csrf
@@ -115,7 +93,7 @@
                         </form>
                     @endif
 
-                    <!-- Image Container -->
+                    <!-- Image -->
                     <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-slate-100 mb-4 flex-shrink-0">
                         <a href="{{ route('product.detail', $product->slug) }}" class="block w-full h-full">
                             @if($product->image)
@@ -127,7 +105,6 @@
                                 </div>
                             @endif
                         </a>
-                        <!-- Badge Kategori -->
                         <span class="absolute top-3 left-3 bg-indigo-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
                             {{ $product->category->name }}
                         </span>
@@ -141,14 +118,17 @@
                             </h3>
                         </a>
                         
+                        <!-- LINK TOKO (DIPERBARUI) -->
                         <div class="flex items-center gap-2 mb-3">
                             <div class="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center text-[10px] font-bold text-indigo-600 flex-shrink-0">
                                 {{ substr($product->store->name, 0, 1) }}
                             </div>
-                            <p class="text-xs text-slate-500 truncate">{{ $product->store->name }}</p>
+                            <!-- Nama Toko Menjadi Link -->
+                            <a href="{{ route('store.show', $product->store->slug) }}" class="text-xs text-slate-500 truncate hover:text-indigo-600 hover:underline transition font-medium">
+                                {{ $product->store->name }}
+                            </a>
                         </div>
                         
-                        <!-- Spacer -->
                         <div class="flex-grow"></div>
 
                         <div class="mt-2 pt-3 border-t border-slate-50">
@@ -159,7 +139,6 @@
                                 </span>
                             </div>
                             
-                            <!-- TOMBOL KERANJANG -->
                             @if(auth()->check() && auth()->user()->role === 'buyer')
                                 <form action="{{ route('buyer.cart.add', $product->id) }}" method="POST">
                                     @csrf
@@ -178,25 +157,16 @@
                     </div>
                 </div>
             @empty
-                <!-- BAGIAN KOSONG -->
-                <div class="col-span-full py-24 text-center bg-white rounded-[2.5rem] shadow-sm border border-slate-100 relative overflow-hidden">
-                    <div class="relative z-10">
-                        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-indigo-50 mb-6 text-indigo-300 animate-pulse">
-                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </div>
-                        <h3 class="text-2xl font-extrabold text-slate-800 mb-2">Yah, Produk Tidak Ditemukan...</h3>
-                        <p class="text-slate-500 max-w-md mx-auto mb-8">Coba gunakan kata kunci lain atau hapus filter kategori agar kami bisa membantumu menemukan barang impian.</p>
-                        
-                        <a href="{{ route('home') }}" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200 hover:-translate-y-1">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                            Reset Pencarian
-                        </a>
+                <div class="col-span-full py-20 text-center">
+                    <div class="inline-block p-6 rounded-full bg-indigo-50 mb-4">
+                        <svg class="w-12 h-12 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
+                    <h3 class="text-lg font-bold text-slate-800">Produk tidak ditemukan</h3>
+                    <p class="text-slate-500 mt-2">Coba cari kata kunci lain atau reset filter.</p>
                 </div>
             @endforelse
         </div>
 
-        <!-- Pagination -->
         <div class="mt-16">
             {{ $products->links() }}
         </div>

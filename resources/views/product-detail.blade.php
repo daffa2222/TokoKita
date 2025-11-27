@@ -1,5 +1,5 @@
 <x-app-layout>
-    <!-- Font Poppins Override -->
+    <!-- Font Poppins -->
     <style> * { font-family: 'Poppins', sans-serif; } </style>
 
     <div class="bg-slate-50 min-h-screen py-12">
@@ -14,7 +14,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
                 
-                <!-- KOLOM KIRI: GAMBAR (Sticky di Desktop) -->
+                <!-- KOLOM KIRI: GAMBAR -->
                 <div class="md:col-span-5 sticky top-24">
                     <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
                         <div class="aspect-square w-full bg-slate-50 rounded-2xl overflow-hidden flex items-center justify-center relative group">
@@ -42,12 +42,10 @@
                             </span>
                         </div>
 
-                        <!-- Judul Produk -->
                         <h1 class="text-3xl font-bold text-slate-900 leading-tight mb-4">
                             {{ $product->name }}
                         </h1>
                         
-                        <!-- Rating & Stats -->
                         <div class="flex items-center gap-6 text-sm mb-8 border-b border-slate-100 pb-6">
                             <div class="flex items-center text-yellow-500 gap-1.5 bg-yellow-50 px-3 py-1.5 rounded-lg">
                                 <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
@@ -61,30 +59,33 @@
                             <div class="text-slate-500">Stok: <span class="font-bold text-slate-800">{{ $product->stock }}</span></div>
                         </div>
 
-                        <!-- Harga -->
                         <div class="mb-8">
                             <span class="text-4xl font-bold text-indigo-600 block mb-1">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
                             <span class="text-sm text-slate-400">Jaminan harga terbaik</span>
                         </div>
                         
-                        <!-- Deskripsi -->
                         <div class="prose prose-slate prose-sm text-slate-600 mb-8 leading-relaxed">
                             <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide mb-2">Deskripsi Produk</h3>
                             <p class="whitespace-pre-line">{{ $product->description }}</p>
                         </div>
 
-                        <!-- Info Penjual -->
-                        <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 mb-8">
+                        <!-- LINK PROFIL TOKO (DIPERBARUI) -->
+                        <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 mb-8 transition hover:border-indigo-200 group/store">
                             <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center font-bold text-indigo-600 text-lg">
                                 {{ substr($product->store->name, 0, 1) }}
                             </div>
                             <div>
-                                <p class="font-bold text-slate-800">{{ $product->store->name }}</p>
-                                <div class="flex items-center gap-1 text-xs text-green-600 font-medium">
+                                <a href="{{ route('store.show', $product->store->slug) }}" class="font-bold text-slate-800 text-lg hover:text-indigo-600 hover:underline transition">
+                                    {{ $product->store->name }}
+                                </a>
+                                <div class="flex items-center gap-1 text-xs text-green-600 font-medium mt-0.5">
                                     <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                                    Penjual Terpercaya
+                                    Penjual Terverifikasi
                                 </div>
                             </div>
+                            <a href="{{ route('store.show', $product->store->slug) }}" class="ml-auto text-sm font-bold text-indigo-600 bg-white px-4 py-2 rounded-lg border border-slate-200 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition">
+                                Kunjungi Toko
+                            </a>
                         </div>
 
                         <!-- Tombol Aksi -->
@@ -103,7 +104,7 @@
                         @endif
                     </div>
 
-                    <!-- Ulasan Pembeli -->
+                    <!-- Ulasan -->
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                         <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
                             Ulasan Pembeli

@@ -32,36 +32,30 @@ class HomeController extends Controller
         }
 
         // -----------------------------------------------------------
-        // LOGIKA 3: SORTING / PENGURUTAN (FITUR BARU)
+        // LOGIKA 3: SORTING / PENGURUTAN
         // -----------------------------------------------------------
         if ($request->has('sort')) {
             if ($request->sort == 'low_high') {
-                // Urutkan dari Harga Terendah ke Tertinggi (ASC)
-                $query->orderBy('price', 'asc');
+                $query->orderBy('price', 'asc'); // Termurah
             } elseif ($request->sort == 'high_low') {
-                // Urutkan dari Harga Tertinggi ke Terendah (DESC)
-                $query->orderBy('price', 'desc');
+                $query->orderBy('price', 'desc'); // Termahal
             } else {
-                // Default: Produk Terbaru
-                $query->latest();
+                $query->latest(); // Default Terbaru
             }
         } else {
-            // Jika tidak ada request sort, default tampilkan terbaru
             $query->latest();
         }
 
         // -----------------------------------------------------------
-        // EKSEKUSI DATA
+        // EKSEKUSI DATA (PERBAIKAN DISINI)
         // -----------------------------------------------------------
         
-        // Ambil data produk dengan pagination (12 per halaman)
-        // method appends($request->all()) berguna agar saat pindah halaman, filter search/sort tidak hilang
-        $products = $query->paginate(12)->appends($request->all());
+        // Batas per halaman diubah dari 12 menjadi 15 sesuai permintaan
+        $products = $query->paginate(15)->appends($request->all());
         
-        // Ambil semua kategori untuk dropdown filter di tampilan
+        // Ambil semua kategori untuk dropdown filter
         $categories = Category::all();
 
-        // Kirim data ke view 'home'
         return view('home', compact('products', 'categories'));
     }
 
@@ -70,12 +64,10 @@ class HomeController extends Controller
      */
     public function show($slug)
     {
-        // Cari produk berdasarkan slug
         $product = Product::with(['store', 'reviews.user', 'category'])
             ->where('slug', $slug)
             ->firstOrFail();
 
-        // Hitung rata-rata rating
         $rating = $product->reviews()->avg('rating');
 
         return view('product-detail', compact('product', 'rating'));

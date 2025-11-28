@@ -24,7 +24,7 @@
         <div>
             <x-input-label for="email" :value="__('Alamat Email')" class="text-slate-700 font-bold text-xs uppercase tracking-wider" />
             <x-text-input id="email" class="block mt-1 w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition-all duration-200 py-3" 
-                          type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="email@contoh.com" />
+                          type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="nama@email.com" />
             <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500 text-sm" />
         </div>
 

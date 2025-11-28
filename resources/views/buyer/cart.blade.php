@@ -141,7 +141,7 @@
 
                                     <h3 class="text-2xl font-extrabold text-slate-800 mb-3">Ups! Keranjangmu Masih Sepi Nih...</h3>
                                     <p class="text-slate-500 text-base mb-8 max-w-md mx-auto leading-relaxed">
-                                        Jangan biarkan keranjangmu kedinginan. Yuk, isi dengan barang-barang impianmu dan mulai checkout sekarang! 🚀
+                                        Jangan biarkan keranjangmu kosong. Yuk, isi dengan barang-barang impianmu dan mulai checkout sekarang! 🚀
                                     </p>
                                     
                                     <a href="{{ route('home') }}" class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-xl hover:shadow-indigo-200 hover:-translate-y-1 transition-all duration-300">

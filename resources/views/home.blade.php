@@ -21,7 +21,6 @@
             <p class="text-lg text-indigo-100 max-w-2xl mx-auto mb-10 leading-relaxed">
                 Ribuan produk original 💯, harga bersahabat 🏷, dan pengiriman kilat 🚀. 
                 Nikmati pengalaman belanja aman & nyaman cuma di <span class="font-bold text-white">TokoKita</span>.
-
             </p>
         </div>
     </div>
@@ -29,7 +28,7 @@
     <!-- MAIN CONTENT -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10 pb-20">
         
-        <!-- SEARCH BAR (Sama seperti sebelumnya) -->
+        <!-- SEARCH BAR -->
         <div class="bg-white rounded-2xl shadow-xl shadow-indigo-100/50 p-5 mb-12 border border-slate-100">
             <form method="GET" action="{{ route('home') }}" class="flex flex-col lg:flex-row gap-4 lg:items-center">
                 <div class="relative w-full lg:flex-1 group">
@@ -105,6 +104,7 @@
                                 </div>
                             @endif
                         </a>
+                        <!-- Badge Kategori -->
                         <span class="absolute top-3 left-3 bg-indigo-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
                             {{ $product->category->name }}
                         </span>
@@ -118,12 +118,11 @@
                             </h3>
                         </a>
                         
-                        <!-- LINK TOKO (DIPERBARUI) -->
+                        <!-- Link Toko -->
                         <div class="flex items-center gap-2 mb-3">
                             <div class="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center text-[10px] font-bold text-indigo-600 flex-shrink-0">
                                 {{ substr($product->store->name, 0, 1) }}
                             </div>
-                            <!-- Nama Toko Menjadi Link -->
                             <a href="{{ route('store.show', $product->store->slug) }}" class="text-xs text-slate-500 truncate hover:text-indigo-600 hover:underline transition font-medium">
                                 {{ $product->store->name }}
                             </a>
@@ -139,16 +138,24 @@
                                 </span>
                             </div>
                             
-                            @if(auth()->check() && auth()->user()->role === 'buyer')
+                            <!-- LOGIKA TOMBOL KERANJANG (STOK HABIS) -->
+                            @if($product->stock < 1)
+                                <button disabled class="w-full bg-slate-200 text-slate-400 py-2.5 rounded-xl font-bold text-sm cursor-not-allowed flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                                    Stok Habis
+                                </button>
+
+                            @elseif(auth()->check() && auth()->user()->role === 'buyer')
                                 <form action="{{ route('buyer.cart.add', $product->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="w-full bg-slate-900 text-white py-3 rounded-xl font-bold text-sm hover:bg-indigo-600 transition shadow-lg shadow-slate-200 group-hover:shadow-indigo-200 flex items-center justify-center gap-2">
+                                    <button type="submit" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-indigo-600 transition shadow-lg shadow-slate-200 group-hover:shadow-indigo-200 flex items-center justify-center gap-2">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                         + Keranjang
                                     </button>
                                 </form>
+
                             @elseif(!auth()->check())
-                                <a href="{{ route('login') }}" class="w-full flex items-center justify-center gap-2 bg-slate-900 text-white py-3 rounded-xl font-bold text-sm hover:bg-indigo-600 transition shadow-lg shadow-slate-200 group-hover:shadow-indigo-200">
+                                <a href="{{ route('login') }}" class="w-full flex items-center justify-center gap-2 bg-slate-900 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-indigo-600 transition shadow-lg shadow-slate-200 group-hover:shadow-indigo-200">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                     + Keranjang
                                 </a>

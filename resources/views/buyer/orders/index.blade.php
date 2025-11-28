@@ -27,10 +27,7 @@
                                 </div>
                                 <div>
                                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Waktu Pemesanan</p>
-                                    
-                                    <!-- PERBAIKAN ZONA WAKTU DI SINI -->
                                     <div class="flex flex-col">
-                                        <!-- Paksa konversi ke Asia/Makassar sebelum diformat -->
                                         <span class="text-sm font-bold text-slate-700">
                                             {{ $order->created_at->setTimezone('Asia/Makassar')->isoFormat('D MMMM Y') }}
                                         </span>
@@ -38,7 +35,6 @@
                                             Pukul {{ $order->created_at->setTimezone('Asia/Makassar')->format('H:i') }} WITA
                                         </span>
                                     </div>
-
                                 </div>
                             </div>
                             
@@ -94,19 +90,33 @@
                                             </div>
                                         </div>
 
-                                        <!-- Tombol Review -->
+                                        <!-- LOGIKA TOMBOL REVIEW -->
                                         @if($order->status == 'completed')
-                                            <button onclick="document.getElementById('review-form-{{ $item->id }}').classList.toggle('hidden')" 
-                                                class="bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition shadow-sm">
-                                                Beri Ulasan
-                                            </button>
+                                            @php
+                                                $hasReviewed = \App\Models\Review::where('user_id', Auth::id())
+                                                                ->where('product_id', $item->product_id)
+                                                                ->exists();
+                                            @endphp
+
+                                            @if($hasReviewed)
+                                                <!-- Jika SUDAH Review -->
+                                                <span class="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-lg border border-green-100 flex items-center gap-1">
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                    Ulasan Terkirim
+                                                </span>
+                                            @else
+                                                <!-- Jika BELUM Review -->
+                                                <button onclick="document.getElementById('review-form-{{ $item->id }}').classList.toggle('hidden')" 
+                                                    class="bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition shadow-sm">
+                                                    Beri Ulasan
+                                                </button>
+                                            @endif
                                         @endif
                                     </div>
 
                                     <!-- Form Review (Hidden) -->
-                                    @if($order->status == 'completed')
+                                    @if($order->status == 'completed' && !$hasReviewed)
                                         <div id="review-form-{{ $item->id }}" class="hidden mt-3 ml-0 sm:ml-20 bg-slate-50 p-5 rounded-2xl border border-slate-200 relative">
-                                            <!-- Segitiga panah -->
                                             <div class="absolute top-[-6px] right-10 w-3 h-3 bg-slate-50 border-t border-l border-slate-200 transform rotate-45"></div>
                                             
                                             <form action="{{ route('buyer.review.store', $item->product_id) }}" method="POST">

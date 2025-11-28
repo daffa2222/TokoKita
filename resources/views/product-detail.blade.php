@@ -88,21 +88,32 @@
                             </a>
                         </div>
 
-                        <!-- Tombol Aksi -->
-                        @if(auth()->check() && auth()->user()->role === 'buyer')
-                            <form action="{{ route('buyer.cart.add', $product->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-600 hover:shadow-lg hover:shadow-indigo-200 transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-3">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                                    Masukkan Keranjang
-                                </button>
-                            </form>
-                        @elseif(!auth()->check())
-                            <a href="{{ route('login') }}" class="block text-center w-full bg-slate-100 text-slate-600 py-4 rounded-xl font-bold text-lg hover:bg-slate-200 transition">
-                                Login untuk Membeli
-                            </a>
-                        @endif
-                    </div>
+                       <!-- Tombol Aksi -->
+<div class="mt-4">
+    @if($product->stock < 1)
+        <!-- Stok Habis -->
+        <button disabled class="w-full bg-slate-200 text-slate-500 py-4 rounded-xl font-bold text-lg cursor-not-allowed flex items-center justify-center gap-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+            Stok Habis
+        </button>
+
+    @elseif(auth()->check() && auth()->user()->role === 'buyer')
+        <!-- Buyer Beli -->
+        <form action="{{ route('buyer.cart.add', $product->id) }}" method="POST">
+            @csrf
+            <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-600 hover:shadow-lg hover:shadow-indigo-200 transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                Masukkan Keranjang
+            </button>
+        </form>
+
+    @elseif(!auth()->check())
+        <!-- Guest Login -->
+        <a href="{{ route('login') }}" class="block text-center w-full bg-slate-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition shadow-lg hover:shadow-slate-300">
+            Login untuk Membeli
+        </a>
+    @endif
+</div>
 
                     <!-- Ulasan -->
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">

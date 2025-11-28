@@ -69,38 +69,40 @@ class ProductController extends Controller
     }
 
     // PROSES UPDATE (VALIDASI DIPERKETAT)
-    public function update(Request $request, $id)
-    {
-        $storeId = auth()->user()->store->id;
-        $product = Product::where('store_id', $storeId)->findOrFail($id);
+   // File: app/Http/Controllers/ProductController.php
 
+public function update(Request $request, $id)
+    {
+        // 1. VALIDASI INPUT
         $request->validate([
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'description' => 'required|string',
-            // Validasi Harga & Stok saat Edit juga harus ketat
-            'price' => 'required|numeric|min:1',
-            'stock' => 'required|integer|min:0', // Kalau edit boleh 0 (habis)
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'name'        => 'required|string|max:255',
+            'price'       => 'required|numeric|min:1', 
+            'stock'       => 'required|numeric|min:0',
+            'description' => 'required',
+        ], [
+            'price.min' => 'Harga tidak boleh 0 atau minus.',
+            'stock.min' => 'Stok tidak boleh minus.',
         ]);
 
-        $data = [
-            'name' => $request->name,
-            'category_id' => $request->category_id,
+        $product = Product::findOrFail($id);
+
+        // 2. LOGIKA STATUS OTOMATIS
+        // Jika stok > 0 maka active, jika 0 maka out_of_stock
+        $status = ($request->stock > 0) ? 'active' : 'out_of_stock';
+
+        // 3. UPDATE DATABASE
+        $product->update([
+            'name'        => $request->name,
+            'price'       => $request->price,
+            'stock'       => $request->stock,
+            'status'      => $status,
             'description' => $request->description,
-            'price' => $request->price,
-            'stock' => $request->stock,
-        ];
+        ]);
 
-        if ($request->hasFile('image')) {
-            if ($product->image) Storage::delete('public/' . $product->image);
-            $data['image'] = $request->file('image')->store('products', 'public');
-        }
-
-        $product->update($data);
-        return redirect()->route('seller.products.index')->with('success', 'Produk diperbarui.');
+        // === PERBAIKANNYA DISINI ===
+        // Ganti 'products.index' menjadi 'seller.products.index'
+        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil diperbarui!');
     }
-
     public function destroy($id)
     {
         $storeId = auth()->user()->store->id;

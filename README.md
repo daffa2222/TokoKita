@@ -1,59 +1,226 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+TokoKita - Sistem E-Commerce Laravel 
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+TokoKita adalah sistem E-Commerce modern berbasis Laravel yang dirancang untuk menyediakan platform jual-beli yang terstruktur, aman, dan mudah digunakan. Sistem ini melayani berbagai peran pengguna mulai dari Admin, Seller, hingga Buyer dengan fitur yang disesuaikan untuk menciptakan ekosistem belanja online yang lengkap.
 
-## About Laravel
+📖 Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Sistem ini dibangun untuk memfasilitasi transaksi antara penjual dan pembeli dengan pengawasan administrator.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Multi-Peran: Mendukung Admin, Seller, Buyer, dan Guest.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Verifikasi Ketat: Seller baru harus melalui proses persetujuan Admin sebelum bisa berjualan.
 
-## Learning Laravel
+Manajemen Lengkap: Termasuk manajemen produk, pesanan (order), keranjang belanja, dan toko.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Fitur Canggih: Dilengkapi dengan fitur wishlist, sorting harga, dan manajemen alamat pengiriman.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+👥 User Levels (Peran Pengguna)
 
-## Laravel Sponsors
+Aplikasi ini memiliki 4 tingkatan akses dengan wewenang yang berbeda:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Admin 👮‍♂️
 
-### Premium Partners
+Pengelola utama platform.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Verifikasi Seller: Menyetujui (Approve) atau menolak (Reject) pendaftaran toko baru.
 
-## Contributing
+Manajemen User: Melihat dan menghapus pengguna (Buyer/Seller) yang bermasalah.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Kontrol Produk: Berhak menghapus produk dari toko manapun yang melanggar aturan.
 
-## Code of Conduct
+Manajemen Kategori: Membuat, mengedit, dan menghapus kategori produk.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. Seller (Penjual) 🏪
 
-## Security Vulnerabilities
+Mitra yang menjual produk di platform.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Pendaftaran: Mendaftar dan menunggu persetujuan Admin (Status: Pending).
 
-## License
+Manajemen Toko: Mengatur nama, deskripsi, dan foto profil toko.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Manajemen Produk: Menambah, mengedit, dan menghapus produk (CRUD).
+
+Manajemen Pesanan: Memantau pesanan masuk dan memperbarui status pengiriman (Pending -> Processing -> Completed).
+
+3. Buyer (Pembeli) 🛒
+
+Pengguna yang berbelanja.
+
+Belanja: Menambah produk ke keranjang, mengubah jumlah, dan checkout.
+
+Transaksi: Membuat pesanan dan memantau riwayat statusnya.
+
+Ulasan: Memberikan rating (bintang) dan review pada produk yang sudah selesai dibeli (Verified Purchase).
+
+Profil: Mengelola informasi akun dan alamat pengiriman.
+
+Wishlist: Menyimpan produk favorit.
+
+4. Public User (Guest) 👤
+
+Pengunjung tanpa akun.
+
+Jelajah: Dapat melihat daftar produk, detail produk, dan melakukan pencarian.
+
+Terbatas: Harus login/register untuk bisa memasukkan barang ke keranjang atau checkout.
+
+📦 CMS Modules (Fitur Utama)
+
+1. Product Management (Seller)
+
+List Products: Melihat semua barang dagangan.
+
+Create Product: Upload produk dengan validasi ketat (Harga & Stok tidak boleh 0/negatif, Wajib gambar).
+
+Edit Product: Memperbarui info produk.
+
+Delete Product: Menghapus produk sendiri.
+
+2. User Management (Admin)
+
+View User: Melihat semua pengguna terdaftar.
+
+Seller Verification: Memvalidasi pendaftaran toko (Pending -> Approved/Rejected).
+
+Edit User: Admin memiliki akses penuh mengubah data user lain (termasuk reset password & role).
+
+Delete User: Menghapus akun pengguna.
+
+3. Cart Management (Buyer)
+
+Add to Cart: Menambah barang. Validasi stok otomatis.
+
+View Cart: Melihat ringkasan belanja. Bisa update jumlah (+/-) dan hapus item.
+
+Checkout: Memproses keranjang menjadi Order resmi. Alamat pengiriman otomatis terisi dari profil.
+
+4. Store Management (Seller)
+
+Info Toko: Mengedit nama toko, deskripsi, dan logo toko agar lebih menarik.
+
+5. Order Management (Core)
+
+Buyer: Melihat riwayat pesanan dan status terkini (Menunggu, Diproses, Selesai).
+
+Seller: Melihat pesanan masuk dan mengubah status pesanan.
+
+Review: Buyer hanya bisa memberi ulasan sekali setelah status pesanan "Selesai".
+
+6. Category Management (Admin)
+
+CRUD Kategori: Admin mengelola kategori (Elektronik, Fashion, dll) untuk pengelompokan produk.
+
+🌟 (Fitur Unggulan)
+
+Fitur tambahan yang membuat TokoKita lebih spesial:
+
+Filter & Sorting:
+
+Cari produk berdasarkan nama.
+
+Filter berdasarkan Kategori.
+
+Sorting Harga: Urutkan dari Termurah atau Termahal.
+
+Alamat Pengiriman Cerdas:
+
+Buyer bisa menyimpan alamat di profil.
+
+Saat checkout, alamat otomatis terisi (auto-fill).
+
+Jika diubah saat checkout, alamat di profil ikut terupdate.
+
+Favorite / Wishlist System:
+
+Simpan produk impian tanpa harus masuk keranjang.
+
+Halaman khusus untuk mengelola daftar keinginan.
+
+💻 Layout & Tampilan
+
+Desain antarmuka dibangun menggunakan Tailwind CSS dengan nuansa Indigo & Font Poppins yang modern, bersih, dan responsif.
+
+Login/Register: Desain Split-Screen modern dengan ilustrasi.
+
+Dashboard: Dashboard Admin & Seller yang informatif dengan statistik.
+
+Homepage: Hero banner menarik, grid produk responsif, dan kartu produk yang rapi.
+
+Navigasi: Menu yang menyesuaikan peran (Admin/Seller/Buyer) secara otomatis.
+
+🚀 Instalasi & Menjalankan Proyek
+
+Ikuti langkah ini untuk menjalankan TokoKita di komputer lokal Anda:
+
+Prasyarat
+
+PHP >= 8.1
+
+Composer
+
+Node.js & NPM
+
+Database MySQL
+
+Langkah-langkah
+
+Clone Repository (atau ekstrak file zip)
+
+git clone [https://github.com/username/tokokita.git](https://github.com/username/tokokita.git)
+cd tokokita
+
+
+Install Dependencies
+
+composer install
+npm install
+
+
+Setup Environment
+
+Salin file .env.example menjadi .env.
+
+Atur koneksi database di .env:
+
+DB_CONNECTION=mysql
+DB_DATABASE=tokokita_db
+DB_USERNAME=root
+DB_PASSWORD=
+APP_TIMEZONE='Asia/Makassar'
+
+
+Generate Key & Migrate
+
+php artisan key:generate
+php artisan migrate
+
+
+Seeding Data (PENTING)
+Jalankan seeder untuk membuat akun Admin, Seller, dan Produk contoh otomatis.
+
+php artisan db:seed
+
+
+Jalankan Server
+
+npm run dev
+php artisan serve
+
+
+Buka browser di http://127.0.0.1:8000
+
+🔑 Akun Demo (Hasil Seeding)
+
+Gunakan akun berikut untuk pengujian :
+
+| Role | Email | Password | Keterangan |
+|----------|-----------|---------|-------------|
+| Admin | admin@tokokita.com | password | Akses penuh sistem |
+| Seller | daffa@gmail.com | password | Penjual aktif (Approved) |
+| Seller | dalvin@gmail.com | password | Penjual baru (Menunggu Verifikasi) |
+| Buyer | arya@gmail.com| password | Pembeli |
+
+
+Sekian dan Terima Kasih. Good Luck!
+
+

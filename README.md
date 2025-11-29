@@ -14,6 +14,8 @@ Sistem ini dibangun untuk memfasilitasi transaksi antara penjual dan pembeli den
 
 - Fitur Canggih: Dilengkapi dengan fitur wishlist, sorting harga, dan manajemen alamat pengiriman.
 
+
+
 👥 User Levels (Peran Pengguna)
 
 Aplikasi ini memiliki 4 tingkatan akses dengan wewenang yang berbeda:
@@ -64,6 +66,9 @@ Pengunjung tanpa akun.
 
 - Terbatas: Harus login/register untuk bisa memasukkan barang ke keranjang atau checkout.
 
+
+
+
 📦 CMS Modules (Fitur Utama)
 
 
@@ -78,6 +83,8 @@ Pengunjung tanpa akun.
 - Delete Product: Menghapus produk sendiri.
 
 
+
+
 2. User Management (Admin)
 
 - View User: Melihat semua pengguna terdaftar.
@@ -89,6 +96,8 @@ Pengunjung tanpa akun.
 - Delete User: Menghapus akun pengguna.
 
 
+
+
 3. Cart Management (Buyer)
 
 - Add to Cart: Menambah barang. Validasi stok otomatis.
@@ -98,9 +107,13 @@ Pengunjung tanpa akun.
 - Checkout: Memproses keranjang menjadi Order resmi. Alamat pengiriman otomatis terisi dari profil.
 
 
+
+
 4. Store Management (Seller)
 
 - Info Toko: Mengedit nama toko, deskripsi, dan logo toko agar lebih menarik.
+
+
 
 
 5. Order Management (Core)
@@ -112,9 +125,14 @@ Pengunjung tanpa akun.
 - Review: Buyer hanya bisa memberi ulasan sekali setelah status pesanan "Selesai".
 
 
+
+
 6. Category Management (Admin)
 
 - CRUD Kategori: Admin mengelola kategori (Elektronik, Fashion, dll) untuk pengelompokan produk.
+
+
+
 
 
 🌟 (Fitur Unggulan)
@@ -131,6 +149,8 @@ Fitur tambahan yang membuat TokoKita lebih spesial:
 - Sorting Harga: Urutkan dari Termurah atau Termahal.
 
 
+
+
 2. Alamat Pengiriman Cerdas:
 
 - Buyer bisa menyimpan alamat di profil.
@@ -140,11 +160,16 @@ Fitur tambahan yang membuat TokoKita lebih spesial:
 - Jika diubah saat checkout, alamat di profil ikut terupdate.
 
 
+
+
 3. Favorite / Wishlist System:
 
 - Simpan produk impian tanpa harus masuk keranjang.
 
 - Halaman khusus untuk mengelola daftar keinginan.
+
+
+
 
 
 💻 Layout & Tampilan
@@ -159,6 +184,9 @@ Desain antarmuka dibangun menggunakan Tailwind CSS dengan nuansa Indigo & Font P
 - Homepage: Hero banner menarik, grid produk responsif, dan kartu produk yang rapi.
 
 - Navigasi: Menu yang menyesuaikan peran (Admin/Seller/Buyer) secara otomatis.
+
+
+
 
 
 🚀 Instalasi & Menjalankan Proyek
@@ -179,13 +207,14 @@ Langkah-langkah:
 
 1. Clone Repository (atau ekstrak file zip)
 
-git clone [https://github.com/username/tokokita.git](https://github.com/username/tokokita.git)
+git clone [https://github.com/daffa2222/tokokita.git](https://github.com/daffa2222/tokokita.git)
 cd tokokita
 
 
 2. Install Dependencies
 
 composer install
+
 npm install
 
 
@@ -195,15 +224,21 @@ npm install
 - Atur koneksi database di .env:
 
 DB_CONNECTION=mysql
+
 DB_DATABASE=tokokita_db
+
 DB_USERNAME=root
+
 DB_PASSWORD=
+
 APP_TIMEZONE='Asia/Makassar'
+
 
 
 4. Generate Key & Migrate
 
 php artisan key:generate
+
 php artisan migrate
 
 
@@ -212,13 +247,18 @@ php artisan migrate
 php artisan db:seed
 
 
+
 6. Jalankan Server
 
 npm run dev
+
 php artisan serve
 
 
 Buka browser di http://127.0.0.1:8000
+
+
+
 
 🔑 Akun Demo (Hasil Seeding)
 
@@ -230,6 +270,7 @@ Gunakan akun berikut untuk pengujian :
 | Seller | daffa@gmail.com | password | Penjual aktif (Approved) |
 | Seller | dalvin@gmail.com | password | Penjual baru (Menunggu Verifikasi) |
 | Buyer | arya@gmail.com| password | Pembeli |
+
 
 
 

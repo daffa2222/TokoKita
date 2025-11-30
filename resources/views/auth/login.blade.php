@@ -4,7 +4,7 @@
 
     <div class="mb-10">
         <h2 class="text-4xl font-bold text-slate-900 mb-3 tracking-tight">Selamat Datang di TokoKita! 👋</h2>
-        <p class="text-slate-500 text-base font-medium">Siap melanjutkan petualangan belanja Anda?</p>
+        <p class="text-slate-500 text-base font-medium">Masuk untuk mulai belanja atau kelola toko anda.</p>
     </div>
 
     <!-- Session Status -->

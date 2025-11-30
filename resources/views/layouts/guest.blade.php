@@ -46,7 +46,7 @@
 
                 <div class="relative z-10 mb-10">
                     <h2 class="text-5xl font-bold leading-tight mb-6 tracking-tight">
-                        Gaya Hidup <br>
+                        Kebutuhan & Gaya Hidup <br>
                         <span class="text-indigo-300">Tanpa Batas.</span>
                     </h2>
                     <p class="text-indigo-100 text-lg max-w-md leading-relaxed font-light opacity-90">
@@ -55,7 +55,7 @@
                 </div>
                 
                 <div class="relative z-10 text-xs text-indigo-300/60 font-mono">
-                    © {{ date('Y') }} TokoKita Inc. All rights reserved.
+                    © {{ date('Y') }} TokoKita. All rights reserved.
                 </div>
 
                 <!-- Dekorasi Lingkaran -->

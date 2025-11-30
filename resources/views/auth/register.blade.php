@@ -3,7 +3,7 @@
     <style> * { font-family: 'Poppins', sans-serif; } </style>
 
     <div class="mb-8">
-        <h2 class="text-3xl font-bold text-slate-900 mb-3 tracking-tight">Mulai Perjalananmu 🚀</h2>
+        <h2 class="text-3xl font-bold text-slate-900 mb-3 tracking-tight">Buat Akun Baru</h2>
         <p class="text-slate-500 text-base font-medium">Isi data di bawah untuk bergabung dengan TokoKita.</p>
     </div>
 
@@ -16,7 +16,7 @@
             <div class="relative transition-all duration-300 group-focus-within:-translate-y-1">
                 <input id="name" type="text" name="name" :value="old('name')" required autofocus autocomplete="name"
                     class="peer w-full pl-4 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-800 text-sm font-medium placeholder-slate-400 focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all shadow-sm hover:bg-white"
-                    placeholder="Contoh: Budi Santoso">
+                    placeholder="nama anda">
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 peer-focus:text-indigo-500 transition-colors">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                 </div>
@@ -49,8 +49,8 @@
                         <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm peer-checked:bg-indigo-600 peer-checked:text-white transition-colors mb-1">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                         </div>
-                        <span class="text-sm font-bold text-slate-700 peer-checked:text-indigo-800 transition-colors">Pembeli</span>
-                        <span class="text-[10px] text-slate-400 peer-checked:text-indigo-500 font-medium">Belanja Sepuasnya</span>
+                        <span class="text-sm font-bold text-slate-700 peer-checked:text-indigo-800 transition-colors">Pembeli (Buyer)</span>
+                        <span class="text-[10px] text-slate-400 peer-checked:text-indigo-500 font-medium"></span>
                     </div>
                     <!-- Checkmark -->
                     <div class="absolute top-3 right-3 w-6 h-6 bg-indigo-600 rounded-full text-white flex items-center justify-center opacity-0 scale-0 peer-checked:opacity-100 peer-checked:scale-100 transition-all z-20 shadow-sm border-2 border-white">
@@ -65,8 +65,8 @@
                         <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 shadow-sm peer-checked:bg-indigo-600 peer-checked:text-white transition-colors mb-1">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </div>
-                        <span class="text-sm font-bold text-slate-700 peer-checked:text-indigo-800 transition-colors">Penjual</span>
-                        <span class="text-[10px] text-slate-400 peer-checked:text-indigo-500 font-medium">Buka Toko Sendiri</span>
+                        <span class="text-sm font-bold text-slate-700 peer-checked:text-indigo-800 transition-colors">Penjual (Seller)</span>
+                        <span class="text-[10px] text-slate-400 peer-checked:text-indigo-500 font-medium"></span>
                     </div>
                     <!-- Checkmark -->
                     <div class="absolute top-3 right-3 w-6 h-6 bg-indigo-600 rounded-full text-white flex items-center justify-center opacity-0 scale-0 peer-checked:opacity-100 peer-checked:scale-100 transition-all z-20 shadow-sm border-2 border-white">
@@ -83,18 +83,18 @@
                 <div class="relative transition-all duration-300 group-focus-within:-translate-y-1">
                     <input id="password" type="password" name="password" required autocomplete="new-password"
                         class="peer w-full pl-4 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-800 text-sm font-medium placeholder-slate-400 focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all shadow-sm hover:bg-white"
-                        placeholder="Min. 8 karakter">
+                        placeholder="Minimal 8 karakter">
                     <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 peer-focus:text-indigo-500 transition-colors">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     </div>
                 </div>
             </div>
             <div class="group">
-                <label class="block text-sm font-bold text-slate-700 mb-2 ml-1">Ulangi Sandi</label>
+                <label class="block text-sm font-bold text-slate-700 mb-2 ml-1">Konfirmasi Kata Sandi</label>
                 <div class="relative transition-all duration-300 group-focus-within:-translate-y-1">
                     <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password"
                         class="peer w-full pl-4 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-800 text-sm font-medium placeholder-slate-400 focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all shadow-sm hover:bg-white"
-                        placeholder="Ketik ulang">
+                        placeholder="Ulang kata sandi">
                     <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 peer-focus:text-indigo-500 transition-colors">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     </div>
